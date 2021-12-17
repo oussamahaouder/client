@@ -1,5 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { register } from "../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100vw;
@@ -52,28 +55,48 @@ const Button = styled.button`
   background-color: teal;
   color: white;
   cursor: pointer;
+  `; 
+const Error = styled.span`
+  color: red;
 `;
 
+
 const Register = () => {
+  const [FirstName, setFirstName] = useState(""); 
+  const [Name, setName] = useState(""); 
+  const [username, setUserName] = useState(""); 
+  const [email, setUserEmail] = useState(""); 
+  const [password, setUserPassword]= useState("");
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+  const handleClick = (e) =>{
+    e.preventDefault();
+    register(dispatch,{username,email,password})
+  }
   return (
+    
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input placeholder="name" />
-          <Input placeholder="last name" />
-          <Input placeholder="username" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
+          <Input placeholder="name" onChange={(e) => setFirstName(e.target.value)} />
+          <Input placeholder="last name"onChange={(e) => setName(e.target.value)}/>
+          <Input placeholder="username" onChange={(e) => setUserName(e.target.value)}/>
+          <Input placeholder="email" onChange={(e) => setUserEmail(e.target.value)}/>
+          <Input placeholder="password" onChange={(e) => setUserPassword(e.target.value)}/>
           <Input placeholder="confirm password" />
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button>CREATE</Button>
+          <Button onClick={handleClick} disabled={isFetching}>
+            CREATE
+          </Button>
+          {error && <Error>Something went very wrong...</Error>}
         </Form>
       </Wrapper>
     </Container>
+    
   );
 };
 

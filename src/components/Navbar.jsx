@@ -81,11 +81,15 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>LAMA.</Logo>
+          <Logo>ArtsAreUs</Logo>
         </Center>
         <Right>
+          <Link to="/register">
           <MenuItem>REGISTER</MenuItem>
+          </Link>
+          <Link to="/login">
           <MenuItem>SIGN IN</MenuItem>
+          </Link> 
           <Link to="/cart">
           <MenuItem>
             <Badge badgeContent={quantity} color="primary">
